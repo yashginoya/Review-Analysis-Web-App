@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock title %}
+
+{% block body %}
+
+<div class="container">
+  <h1>Text Classification Models</h1>
+  <form action="/" method="post">
+    <div class="mb-3">
+      <label for="title" class="form-label">Text for Classification</label>
+      <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp">
+    </div>
+
+    <select class="form-select mb-3" name = "select_Model" aria-label="Default select example">
+      <option selected>Select Classification Model</option>
+      <option value="Bag of words">Bag of words</option>
+      <option value="TFIDF">TFIDF</option>
+      <option value="word2vec">word2vec</option>
+      <option value="glove">Glove</option>
+    </select>
+    <button type="submit" class="btn btn-dark">Submit</button>
+  </form>
+</div>
+<br>
+<div class="container">
+  <h1>Classification History</h1>
+
+  {% if allTodo|length == 0 %}
+
+  <div class="alert alert-dark" role="alert">
+    No Todos Found. Add your First todo now !
+  </div>
+
+  {% else %}
+  <table class="table mb-3">
+    <thead>
+      <tr>
+        <th scope="col">SNo</th>
+        <th scope="col">Text</th>
+        <th scope="col">Prediction</th>
+        <th scope="col">Model Type</th>
+        <th scope="col">Time</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for todo in allTodo %}
+      <tr>
+        <th scope="row">{{loop.index}}</th>
+        <td>{{todo.title}}</td>
+        <td>{{todo.desc}}</td>
+        <td>{{todo.model_type}}</td>
+        <td>{{todo.date_created}}</td>
+        <td>
+          <a href="/update/{{todo.sno}}" type="button" class="btn btn-outline-dark btn-sm mx-1 my-1">Update</a>
+          <a href="/delete/{{todo.sno}}" type="button" class="btn btn-outline-dark btn-sm mx-1 my-1">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+  {% endif %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
+{% endblock body %}
